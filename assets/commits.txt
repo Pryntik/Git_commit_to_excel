@@ -1,0 +1,14 @@
+* commit id_example_commit_1
+| Author: FirstName LastName <name@example.com>
+| Date:   Mon Jan 01 01:01:01 2000 +0200
+|
+|     Title of the commit 1
+|
+* commit id_example_commit_2
+| Author: FirstName LastName <name@example.com>
+| Date:   Mon Feb 01 01:01:01 2000 +0200
+|
+|     Title of the commit 2
+|
+|     Description line 1 of the commit.
+|     Description line 2 of the commit.
