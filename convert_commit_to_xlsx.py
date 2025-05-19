@@ -5,6 +5,18 @@ import pandas as pd
 from io import StringIO
 from datetime import datetime
 
+# Dictionaries
+MONTH_SHORT_TO_LONG = {
+    'Jan': 'January', 'Feb': 'February', 'Mar': 'March', 'Apr': 'April',
+    'May': 'May', 'Jun': 'June', 'Jul': 'July', 'Aug': 'August',
+    'Sep': 'September', 'Oct': 'October', 'Nov': 'November', 'Dec': 'December'
+}
+
+MONTH_SHORT_TO_NUM = {
+    'Jan': 1, 'Feb': 2, 'Mar': 3, 'Apr': 4, 'May': 5, 'Jun': 6,
+    'Jul': 7, 'Aug': 8, 'Sep': 9, 'Oct': 10, 'Nov': 11, 'Dec': 12
+}
+
 # Assets
 root_dir = os.path.dirname(os.path.abspath(__file__))
 asset_dir = os.path.join(root_dir, 'assets')
@@ -19,44 +31,29 @@ file_output = f'{file_name}.xlsx'
 path_input = os.path.join(asset_dir, file_input)
 path_output =  os.path.join(asset_dir, file_output)
 
-# Console command in input file.txt :
+# Console command to put in input file.txt :
 # git log --all --decorate --graph
 with open(path_input, 'r', encoding='utf-8') as f:
     commit_text = f.read()
 
-def month_short_to_full(short_month):
-    months = {
-        'Jan': 'January',
-        'Feb': 'February',
-        'Mar': 'March',
-        'Apr': 'April',
-        'May': 'May',
-        'Jun': 'June',
-        'Jul': 'July',
-        'Aug': 'August',
-        'Sep': 'September',
-        'Oct': 'October',
-        'Nov': 'November',
-        'Dec': 'December'
-    }
-    return months.get(short_month, short_month)
-
-# Cutting of Committee blocks
+# Commits variables
 commit_blocks = re.split(r"^\s*[\s|/\\]*\*\s*[\s|/\\]*commit\s+", commit_text, flags=re.MULTILINE)[1:]
+commits_datas = {}
 
-# Store the commits grouped by year-house
-grouped_commits = {}
+# Date variables
+year_val = 0
+month_val = 0
+year_str = ''
+month_str = ''
 
 for block in commit_blocks:
-    # Clean : strip and '|'
     block_lines = block.strip().split('\n')
-    processed_lines = []
+    lines = []
     for current_line in block_lines:
         # Remove all '|', '\', '/' at start and strip the line
         cleaned_line = re.sub(r"^[|\s/\\]*", "", current_line).strip()
         if cleaned_line:
-            processed_lines.append(cleaned_line)
-    lines = processed_lines
+            lines.append(cleaned_line)
 
     commit_id = lines[0] if lines else ''
 
@@ -73,22 +70,29 @@ for block in commit_blocks:
     date_line = next((line for line in lines if line.startswith('Date:')), '')
     date_match = re.search(r'(\w{3}) (\w{3}) (\d{1,2}) (\d{2}:\d{2}:\d{2}) (\d{4})(?: ([\+\-]\d{4}))?', date_line)
     if date_match:
-        year = date_match.group(5)
-        month = month_short_to_full(date_match.group(2))
+        year_str = date_match.group(5)
+        month_short = date_match.group(2)
+
+        year_val = int(year_str)
+        month_val = MONTH_SHORT_TO_NUM.get(month_short, 0)
+        month_str = MONTH_SHORT_TO_LONG.get(month_short)
     else:
-        year, month = '', ''
+        year_str, month_str = '', ''
 
     message_lines = [
         line for i, line in enumerate(lines)
         if i != 0 and not (line.startswith('Author:') or line.startswith('Date:')) and line
     ]
+
+    # Title and description
     title = message_lines[0] if message_lines else ''
     description = '\n'.join(message_lines[1:]) if len(message_lines) > 1 else ''
 
-    key = f"{year}-{month}"
-    grouped_commits.setdefault(key, []).append({
-        'Year': year,
-        'Month': month,
+    # Commits associated with a year and a month
+    key_tuple = (year_val, month_val)
+    commits_datas.setdefault(key_tuple, []).append({
+        'Year': year_str,
+        'Month': month_str,
         'Title': title,
         'Description': description,
         'Commit ID': commit_id,
@@ -97,21 +101,36 @@ for block in commit_blocks:
 
 # Generating rows for the xlsx table
 rows = []
-previous_year, previous_month = '', ''
-for key in sorted(grouped_commits.keys()):
-    for commit in grouped_commits[key]:
-        if commit['Year'] != previous_year or year == '':
-            rows.append({'Title': commit['Year'], 'Description': '', 'Commit ID': '', 'Author': ''})
-            previous_year = commit['Year']
-        if commit['Month'] != previous_month or month == '':
-            rows.append({'Title': commit['Month'], 'Description': '', 'Commit ID': '', 'Author': ''})
-            previous_month = commit['Month']
+previous_year, previous_month = None, None
+sorted_commits_keys = sorted(commits_datas.keys(), reverse=True)
+
+for key in sorted_commits_keys:
+    # Check if the commit with key is valid
+    commit_group = commits_datas[key]
+    if not commit_group:
+        continue
+
+    current_year = commit_group[0]['Year']
+    current_month = commit_group[0]['Month']
+
+    if current_year != previous_year:
+        rows.append({'Title': current_year, 'Description': '', 'Commit ID': '', 'Author': ''})
+        previous_year = current_year
+        previous_month = None
+
+    if current_month != previous_month:
+        rows.append({'Title': current_month, 'Description': '', 'Commit ID': '', 'Author': ''})
+        previous_month = current_month
+
+    for commit in commit_group:
         rows.append({
             'Title': commit['Title'],
             'Commit ID': commit['Commit ID'],
             'Description': commit['Description'],
             'Author': commit['Author']
         })
+
+
 
 # Backup in an xlsx file
 df = pd.DataFrame(rows)
@@ -126,4 +145,4 @@ for column_cells in ws.columns:
 
 # Back up the modified file
 wb.save(path_output)
-print(f"file xlsx generated successfully at the location : {path_output}")
+print(f"\033[92mfile xlsx generated successfully\n\033[0mlocation : {path_output}")

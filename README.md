@@ -1,17 +1,25 @@
 # Git_commit_to_excel
 
-Converts Git commits into a spreadsheet file. Extracts information (author, date, title, description), groups it by year and month, and then exports it to an XLSX file with appropriate column formatting.
+## English
 
-## ANG
-I was searching the internet for a way to convert commit logs into a more attractive format. I thought the table format might be easier to read. Plus, once in a table format, it can be converted back into other formats, such as csv, for example.
+### Description
+Converts Git commits to a spreadsheet file. Extracts information (author, date, title, description), groups it by year and month, and then exports it to an XLSX file with appropriate column formatting.
 
-I didn't search much, except for "git pretty format" or a browser extension, I didn't find any options. Then, as a beginner in Python, I thought that it would allow me to improve on this language (basically, I'm more of a web developer, but I started with Java).
+### Presentation
+I thought the table format might be easier to proofread. Plus, once in a table format, it can be converted back into other formats, such as CSV, for example.
 
-So at first, I asked ChatGPT to convert my commits to Excel, but it's super long (I don't have the pro version, so it's limited for data), and it doesn't support large text files. So I asked it for a script base, and with Github Copilot on VSCode, I learned a lot. I used it as a teacher and that's how I learned, corrected and wrote this little Python script. I suspect that it is far from perfect, there are still many possible improvements such as for example ordering the commits by dates. But this is what I was able to do in one day, thank you for your indulgence and if you have any advice or improvements do not hesitate !
+I didn't search extensively; other than "git pretty format" or a browser extension, I didn't find any options. Being a beginner in Python, I thought it would help me improve my skills in the language (I'm basically a web developer, but I started with Java).
 
-## FR
-Je cherchais sur internet un moyen de convertir des logs de commits en format plus sympa. Je me suis dit que le format tableau pourrais être plus simple à relire. En plus une fois en tableau, il peut être converti à nouveau dans d'autres formats comme en csv par exemple.
+So, at first, I asked ChatGPT to convert my commits to Excel, but the response times were slow (I don't have the pro version, so the number of requests is limited), and large texts weren't supported. So I asked it for a script base, and with Github Copilot on VSCode, I learned a lot. I used it like a teacher, and that's how I learned, corrected, and wrote this Python script. It's not perfect, there are still several possible improvements, thank you for your indulgence and if you have any advice or improvements, don't hesitate !
 
-Je n'ai pas énormément cherché, hormis "git pretty format" ou une extension navigateur, je n'ai pas trouvé d'option. Puis moi qui débute en Python, je me suis dit que ça permettrait de m'améliorer sur ce langage (à la base, je suis plutôt développeur web, mais j'ai commencé avec du Java).
+## Français
 
-Alors au début, je demandais à ChatGPT de convertir mes commits en excel, mais c'est super long (je n'ai pas la version pro donc limitée pour les données.) et puis les gros textes ne sont pas pris en charge. Alors je lui ai demandé une base de script et avec Github copilot sur VSCode j'ai appris plein de choses. Je m'en suis servie comme d'un professeur et c'est comme cela que j'ai appris, corriger et écrit ce petit script Python. Je me doute qu'il est loin d'être parfait, il reste plusieurs plein d'améliorations possibles comme par exemple ranger les commits dans l'ordre, par dates. Mais voilà ce que j'ai pu faire en une journée, merci pour votre indulgence et si vous avez des conseils ou améliorations n'hésitez pas !
+### Description
+Convertit les commits Git en fichier tableur. Extrait les informations (auteur, date, titre, description), les regroupe par année et par mois, puis les exporte vers un fichier XLSX avec un formatage de colonnes approprié.
+
+### Présentation
+Je me suis dit que le format tableau pourrait être plus simple à relire. En plus, une fois en tableau, il peut être converti à nouveau dans d'autres formats comme en csv par exemple.
+
+Hormis "git pretty format" ou une extension navigateur, je n'ai pas trouvé d'option pour convertir les commits en tableur. Étant débutant en Python, je me suis dit que ça permettrait de m'améliorer sur ce langage (à la base, je suis plutôt développeur web, mais j'ai commencé avec du Java).
+
+Alors au début, je demandais à ChatGPT de convertir mes commits en excel, mais les délais de réponses sont longs (je n'ai pas la version pro donc limitée pour le nombre de requêtes) et puis les gros textes ne sont pas pris en charge. Alors je lui ai demandé une base de script et avec Github copilot sur VSCode j'ai appris plein de choses. Je m'en suis servie comme d'un professeur et c'est comme cela que j'ai appris, corrigé et écrit ce script Python. Il n'est pas parfait, il reste plusieurs améliorations possibles, merci pour votre indulgence et si vous avez des conseils ou des améliorations n'hésitez pas !
