@@ -1,4 +1,4 @@
-# Git_commit_to_xlsx
+# Git_commit_to_excel
 
 Converts Git commits into a spreadsheet file. Extracts information (author, date, title, description), groups it by year and month, and then exports it to an XLSX file with appropriate column formatting.
 
