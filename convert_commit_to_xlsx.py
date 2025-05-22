@@ -31,7 +31,14 @@ file_output = f'{file_name}.xlsx'
 path_input = os.path.join(asset_dir, file_input)
 path_output =  os.path.join(asset_dir, file_output)
 
-# Console command to put in input file.txt :
+# Sizes
+column_widths = {
+    'Title': 100,
+    'Description': 150
+    # Not defined = fit-content
+}
+
+# Console command to get your git log (put it in the assets/commits.txt file) :
 # git log --all --decorate --graph
 with open(path_input, 'r', encoding='utf-8') as f:
     commit_text = f.read()
@@ -130,18 +137,24 @@ for key in sorted_commits_keys:
             'Author': commit['Author']
         })
 
-
-
 # Backup in an xlsx file
 df = pd.DataFrame(rows)
 df.to_excel(path_output, index=False)
 
-# Adjust the width of each column according to the maximum content
+# Adjust the width of each column
 wb = openpyxl.load_workbook(path_output)
 ws = wb.active
-for column_cells in ws.columns:
-    length = max(len(str(cell.value)) if cell.value else 0 for cell in column_cells)
-    ws.column_dimensions[column_cells[0].column_letter].width = length
+for i, column_cells in enumerate(ws.columns):
+    column_letter = column_cells[0].column_letter
+    header = ws.cell(row=1, column=column_cells[0].column).value
+
+    if header in column_widths:
+        # Custom width
+        ws.column_dimensions[column_letter].width = column_widths[header]
+    else:
+        # Fit-content
+        length = max(len(str(cell.value)) if cell.value else 0 for cell in column_cells)
+        ws.column_dimensions[column_letter].width = length + 2 if length > 0 else length
 
 # Back up the modified file
 wb.save(path_output)
