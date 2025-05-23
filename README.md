@@ -2,6 +2,12 @@
 
 ## English
 
+### Before use
+First, you need to create a commits.txt file (or another custom name) to place in the /assets folder. In this file, place the contents of the following command :
+```shell
+git log --all --decorate --graph
+```
+
 ### Description
 Converts Git commits to a spreadsheet file. Extracts information (author, date, title, description), groups it by year and month, and then exports it to an XLSX file with appropriate column formatting.
 
@@ -13,6 +19,12 @@ I didn't search extensively; other than "git pretty format" or a browser extensi
 So, at first, I asked ChatGPT to convert my commits to Excel, but the response times were slow (I don't have the pro version, so the number of requests is limited), and large texts weren't supported. So I asked it for a script base, and with Github Copilot on VSCode, I learned a lot. I used it like a teacher, and that's how I learned, corrected, and wrote this Python script. It's not perfect, there are still several possible improvements, thank you for your indulgence and if you have any advice or improvements, don't hesitate !
 
 ## Français
+
+### Avant utilisation
+Vous devez d'abord créer un fichier commits.txt (ou autre nom personnalisé) a placé dans le dossier /assets. Dans ce fichier, placez le contenu de la commande suivante :
+```shell
+git log --all --decorate --graph
+```
 
 ### Description
 Convertit les commits Git en fichier tableur. Extrait les informations (auteur, date, titre, description), les regroupe par année et par mois, puis les exporte vers un fichier XLSX avec un formatage de colonnes approprié.
