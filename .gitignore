@@ -1,3 +1,5 @@
 assets/*.xlsx
 assets/*.csv
 assets/.~lock.*
+
+assets/commits.txt

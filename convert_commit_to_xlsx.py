@@ -4,7 +4,7 @@ import os
 import pandas as pd
 from io import StringIO
 from datetime import datetime
-from openpyxl.styles import PatternFill
+from openpyxl.styles import PatternFill, Alignment
 
 # Headers
 H_TITLE = 'Title'
@@ -51,6 +51,7 @@ path_input = os.path.join(asset_dir, file_input)
 path_output =  os.path.join(asset_dir, file_output)
 
 # Styles
+left_alignment = Alignment(horizontal='left', vertical='top')
 column_widths = {
     H_TITLE: 100,
     H_DESCRIPTION: 150
@@ -122,7 +123,7 @@ for block in commit_blocks:
     key_tuple = (year_val, month_val)
     commits_datas.setdefault(key_tuple, []).append({
         A_TYPE: 'Commit',
-        A_YEAR: year_str,
+        A_YEAR: year_val,
         A_MONTH: month_str,
         H_TITLE: title,
         H_DESCRIPTION: description,
@@ -193,6 +194,11 @@ for row_id, row_data in enumerate(allDataFrame.to_dict('records'), start=2):
             cell = ws.cell(row=row_id, column=col_id)
             if row_data[A_TYPE] in colors_separator:
                 cell.fill = colors_separator[row_data[A_TYPE]]
+
+# Apply alignment to cells
+for row in ws.iter_rows():
+    for cell in row:
+        cell.alignment = left_alignment
 
 # Save the modified file
 workbook.save(path_output)
