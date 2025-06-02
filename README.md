@@ -1,5 +1,7 @@
 # Git_commit_to_excel
 
+![git_commit_to_excel](assets/git_commit_to_excel.png)
+
 ## English
 
 ### Before use

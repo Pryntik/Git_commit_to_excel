@@ -39,7 +39,9 @@ MONTH_SHORT_TO_NUM = {
 # Assets
 root_dir = os.path.dirname(os.path.abspath(__file__))
 asset_dir = os.path.join(root_dir, 'assets')
+output_dir = os.path.join(root_dir, 'output')
 os.makedirs(asset_dir, exist_ok=True)
+os.makedirs(output_dir, exist_ok=True)
 
 # Files
 file_name = 'commits'
@@ -48,7 +50,7 @@ file_output = f'{file_name}.xlsx'
 
 # Paths
 path_input = os.path.join(asset_dir, file_input)
-path_output =  os.path.join(asset_dir, file_output)
+path_output =  os.path.join(output_dir, file_output)
 
 # Styles
 left_alignment = Alignment(horizontal='left', vertical='top')
@@ -64,7 +66,7 @@ colors_separator = {
 
 # Console command to get your git log (put it in the assets/commits.txt file) :
 # git log --all --decorate --graph
-with open(path_input, 'r', encoding='utf-8') as f:
+with open(path_input, encoding='utf-8') as f:
     commit_text = f.read()
 
 # Commits variables

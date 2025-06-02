@@ -1,6 +1,1 @@
-assets/*.xlsx
-assets/*.csv
-assets/.~lock.*
-assets/*.txt
-
-!assets/commits_example.txt
+output/*
